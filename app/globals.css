@@ -40,6 +40,10 @@
   .bg-blob.a { opacity: .14 !important; }
   .bg-blob.b { opacity: .12 !important; }
   .bg-blob.c { opacity: .08 !important; }
+  .skeleton-block { background-color: #353b40; }
+  .skeleton-block::after {
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 14%) 48%, transparent 68%);
+  }
 }
 
 @theme inline {
@@ -63,8 +67,30 @@ body {
   font-size: 1.125rem; line-height: 1.65;
 }
 
-.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
-.reveal.in { opacity: 1; transform: none; }
+/* Placeholder léger, réservé aux vrais états de chargement du routeur. */
+.skeleton-block {
+  position: relative;
+  overflow: hidden;
+  background-color: #e3e6e9;
+  filter: blur(.35px);
+  animation: skeleton-pulse 1.35s ease-in-out infinite;
+}
+.skeleton-block::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 76%) 48%, transparent 68%);
+  transform: translateX(-100%);
+  animation: skeleton-shimmer 1.45s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes skeleton-shimmer {
+  to { transform: translateX(100%); }
+}
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: .76; }
+  50% { opacity: 1; }
+}
 
 /* Fond animé vert + rouge */
 .bg-blob { position: absolute; border-radius: 50%; will-change: transform; animation: drift 24s ease-in-out infinite alternate; }
@@ -76,8 +102,12 @@ body {
   to   { transform: translate3d(6vmax, 4vmax, 0) scale(1.15); }
 }
 
+/* Évite de faire travailler le GPU du téléphone pour un décor d’arrière-plan. */
+@media (max-width: 639px) {
+  .bg-blob { animation: none; will-change: auto; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .bg-blob { animation: none; }
+  .bg-blob, .skeleton-block, .skeleton-block::after { animation: none; will-change: auto; }
 }

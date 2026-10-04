@@ -1,8 +1,8 @@
+import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 import { IconDownload } from "@/components/ui/Icons";
 
-// Le CV vient de public/main.pdf. Si tu le remplaces, régénère aussi l'aperçu :
-//   pdftoppm -r 150 -png -singlefile public/main.pdf cv && (convertir cv.png en public/cv-preview.webp)
+// Le CV vient de public/main.pdf. Si tu le remplaces, régénère aussi l'aperçu.
 export default function CV() {
   return (
     <section id="cv" className="mx-auto max-w-5xl scroll-mt-20 px-5 py-20">
@@ -26,19 +26,22 @@ export default function CV() {
           </a>
         </div>
 
-        {/* Ordinateur : vrai lecteur PDF. Téléphone / navigateur sans lecteur : aperçu image. */}
         <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-white shadow-lg">
-          <object
-            data="/main.pdf#toolbar=0&navpanes=0&view=FitH"
-            type="application/pdf"
-            aria-label="CV de Cicinho Feno (PDF)"
+          <iframe
+            src="/main.pdf#toolbar=0&navpanes=0&view=FitH"
+            title="CV de Cicinho Feno (PDF)"
+            loading="lazy"
             className="hidden h-[80vh] min-h-[700px] w-full md:block"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/cv-preview.webp" alt="Aperçu du CV de Cicinho Feno" className="h-auto w-full" loading="lazy" />
-          </object>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/cv-preview.webp" alt="Aperçu du CV de Cicinho Feno" className="block h-auto w-full md:hidden" loading="lazy" />
+          />
+          <Image
+            src="/cv-preview.webp"
+            alt="Aperçu du CV de Cicinho Feno"
+            width={1241}
+            height={1754}
+            sizes="(min-width: 1024px) 984px, (min-width: 768px) 92vw, calc(100vw - 2.5rem)"
+            loading="lazy"
+            className="block h-auto w-full md:hidden"
+          />
         </div>
       </Reveal>
     </section>

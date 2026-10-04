@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Reveal from "@/components/ui/Reveal";
 
 export default function Hero() {
@@ -12,19 +13,14 @@ export default function Hero() {
         </p>
       </Reveal>
       <Reveal>
-        {/* Logo recadré au plus près, fourni en 2K / 4K (le navigateur choisit selon l'écran).
-            La carte derrière change de teinte avec le thème (variables --logo-from / --logo-to). */}
         <div className="mx-auto w-full max-w-2xl rounded-3xl bg-linear-to-br from-[var(--logo-from)] to-[var(--logo-to)] p-5 shadow-lg ring-1 ring-line sm:p-8">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/logo-2k.webp"
-            srcSet="/logo-2k.webp 2048w, /logo-4k.webp 4096w"
-            sizes="(min-width: 768px) 42rem, 92vw"
-            width={4096}
-            height={4062}
+            width={2048}
+            height={2031}
             alt="X3 Revenue Web Solutions"
-            fetchPriority="high"
-            decoding="async"
+            sizes="(min-width: 1200px) 600px, (min-width: 768px) 50vw, calc(100vw - 5rem)"
+            preload
             className="h-auto w-full"
           />
         </div>
