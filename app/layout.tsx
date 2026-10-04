@@ -10,6 +10,7 @@ const sans = DM_Sans({ subsets: ["latin"], variable: "--font-dmsans" });
 export const metadata: Metadata = {
   title: `${site.name} — ${site.role} à Nosy Be`,
   description: site.tagline,
+  icons: { icon: "/rt-logo.png", apple: "/rt-logo.png" },
 };
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 
