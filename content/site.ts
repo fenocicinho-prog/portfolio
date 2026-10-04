@@ -12,6 +12,6 @@ export const site = {
 
 // Texte affiché à côté de la case à cocher. Le serveur enregistre exactement cette version
 // avec chaque demande : si tu le modifies, change aussi CONSENT_VERSION.
-export const CONSENT_VERSION = "2026-10-v1";
+export const CONSENT_VERSION = "2026-10-v2";
 export const CONSENT_TEXT =
-  "J'accepte d'être recontacté(e) par WhatsApp ou par e-mail au sujet de ma demande, et que ces informations soient enregistrées dans ce but. Je peux en demander la suppression à tout moment.";
+  "J'accepte d'être recontacté(e) au sujet de ma demande et que mes coordonnées et mon message soient enregistrés à cette fin. Le propriétaire du site peut recevoir ces éléments par WhatsApp pour traiter ma demande. Je peux demander leur suppression à tout moment. Ne transmettez aucun mot de passe ni donnée sensible.";
