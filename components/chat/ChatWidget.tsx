@@ -6,7 +6,7 @@ import { waLink } from "@/lib/whatsapp";
 import { getSessionId } from "@/lib/session";
 
 type Msg = { role: "user" | "assistant"; content: string };
-const hello: Msg = { role: "assistant", content: `Bonjour ! Je réponds à vos questions sur les services de ${site.name}. Que voulez-vous savoir ?` };
+const hello: Msg = { role: "assistant", content: `Bonjour ! Je peux répondre à vos questions sur le CV, le parcours, les projets et les services de ${site.name}. Que voulez-vous savoir ?` };
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);

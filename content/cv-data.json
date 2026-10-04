@@ -1,0 +1,92 @@
+{
+  "fullName": "Cicinho Feno",
+  "preferredName": "Feno",
+  "role": "Développeur logiciel & Full Stack autodidacte",
+  "roleDisplay": "Développeur logiciel & Full Stack",
+  "location": "Madagascar",
+  "ageAtCvDate": "18 ans (CV daté d’octobre 2026)",
+  "ageDisplay": "18 ans",
+  "startedCoding": "S’intéresse au développement web depuis l’âge de 14 ans.",
+  "startedCodingShort": "Développement web depuis 14 ans",
+  "availableForProjects": true,
+  "profile": "Développeur logiciel Full Stack autodidacte, intéressé par les interfaces accessibles et les solutions web fiables. Il transforme une idée en application fonctionnelle : interface, authentification, API, base de données et déploiement.",
+  "education": {
+    "title": "Baccalauréat — Mention Bien",
+    "details": "Formation générale et base solide pour progresser en développement logiciel et technologies numériques."
+  },
+  "learning": {
+    "title": "Apprentissage du développement web",
+    "startDate": "avril 2024",
+    "provider": "apprendre-a-coder.com",
+    "director": "John Taieb",
+    "topics": ["HTML", "JavaScript", "Bootstrap", "PHP", "MySQL", "WordPress"],
+    "nuance": "PHP a été exploré mais correspond moins à ses préférences. Ce parcours n’est pas présenté comme un diplôme ou une certification."
+  },
+  "learningSourceNote": "Le parcours d’apprentissage mentionné a commencé via apprendre-a-coder.com, et non Udemy.",
+  "selfDirectedLearning": "Après ces bases, il a approfondi d’autres langages et technologies en autodidacte, avec l’aide d’outils d’IA.",
+  "cybersecurity": "Il pratique et explore la cybersécurité de manière autonome, à partir de ressources trouvées sur Internet et par curiosité, sans professeur. Aucune formation diplômante ou certification en cybersécurité n’est déclarée.",
+  "skills": [
+    "HTML",
+    "JavaScript",
+    "TypeScript",
+    "React / Expo",
+    "PHP (exploré)",
+    "Bootstrap",
+    "WordPress",
+    "MySQL",
+    "SQL / Prisma",
+    "Node.js",
+    "Python",
+    "Rust",
+    "API et authentification",
+    "Git / GitHub",
+    "Vercel",
+    "Interfaces responsive"
+  ],
+  "strengths": [
+    "Vision produit et sens du détail",
+    "Apprentissage rapide et autonomie",
+    "Résolution de problèmes de bout en bout",
+    "Sensibilité à la sécurité et à la fiabilité"
+  ],
+  "projects": [
+    {
+      "name": "Mini Copilot",
+      "status": "Réalisation",
+      "stack": "TypeScript, React, Expo et API",
+      "details": "Assistant IA de développement avec chat, authentification, rendu Markdown, historique, outils de travail et expérience web/mobile.",
+      "inCv": true
+    },
+    {
+      "name": "Mini Copilot Windows",
+      "status": "En préparation",
+      "stack": "Rust, Electron et Python",
+      "details": "Agent Windows natif en préparation, avec une interface sombre/cyan, un moteur local, des confirmations d’actions et des outils intégrés.",
+      "inCv": true
+    },
+    {
+      "name": "Ny Herin’ny Boky",
+      "status": "Projet présenté dans le CV",
+      "stack": "TypeScript, web et e-commerce",
+      "details": "Plateforme web de vente et d’achat de livres malagasy, pensée pour connecter vendeurs et acheteurs dans une expérience locale.",
+      "inCv": true
+    },
+    {
+      "name": "Mini Copilot Site",
+      "status": "En ligne",
+      "stack": "HTML, CSS, JavaScript et Vercel",
+      "details": "Site public de présentation et de téléchargement du produit, avec une identité visuelle inspirée du logo.",
+      "inCv": true
+    },
+    {
+      "name": "Agent ordinateur",
+      "status": "En cours (projets du portfolio)",
+      "stack": "Python, réécriture en Dart en cours",
+      "details": "Moteur de version ordinateur qui lit et crée des fichiers et propose des idées.",
+      "inCv": false
+    }
+  ],
+  "careerGoal": "Rejoindre une équipe exigeante pour construire des produits utiles, continuer à apprendre et contribuer au développement web, aux outils IA ou aux applications métier.",
+  "github": "https://github.com/fenocicinho-prog",
+  "whatsapp": "+261 37 86 77 499"
+}
