@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --fg: #1c1f23;
+  --muted: #3f4449;
+  --card: #ffffff;
+  --line: #e3e6e3;
+  --accent: #306032;       /* vert */
+  --accent-2: #43a363;     /* vert clair */
+  --red: #a3202a;          /* rouge (accord avec le logo) */
+  --on-accent: #ffffff;
+  /* Boutons par importance : 1 rouge (le plus important) -> 4 vert doux */
+  --lvl1: #a3202a; --lvl1-fg: #ffffff;
+  --lvl2: #306032; --lvl2-fg: #ffffff;
+  --lvl3: #43a363; --lvl3-fg: #0e1f12;
+  --lvl4: #dcefe1; --lvl4-fg: #1f4023;
+  /* Fond de la carte du logo (dégradé vert -> rose pâle, accordé à la bordure du menu) */
+  --logo-from: #e4f3e9; --logo-to: #f7e4e5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1412;
+    --fg: #eef3ef;
+    --muted: #b9c4be;
+    --card: #161d19;
+    --line: #27312b;
+    --accent: #5ec47f;
+    --accent-2: #3a9a5b;
+    --red: #d83a43;
+    --on-accent: #0b1a10;
+    --lvl1: #d83a43; --lvl1-fg: #ffffff;
+    --lvl2: #2e7d3a; --lvl2-fg: #ffffff;
+    --lvl3: #5fc07d; --lvl3-fg: #0b1a10;
+    --lvl4: #1d2e23; --lvl4-fg: #9fe0b3;
+    --logo-from: #d4ead9; --logo-to: #efd8da;
+  }
+  .bg-blob.a { opacity: .14 !important; }
+  .bg-blob.b { opacity: .12 !important; }
+  .bg-blob.c { opacity: .08 !important; }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-red: var(--red);
+  --color-on-accent: var(--on-accent);
+  --font-display: var(--font-serif);
+  --font-sans: var(--font-dmsans);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-dmsans), system-ui, sans-serif;
+  font-size: 1.125rem; line-height: 1.65;
+}
+
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Fond animé vert + rouge */
+.bg-blob { position: absolute; border-radius: 50%; will-change: transform; animation: drift 24s ease-in-out infinite alternate; }
+.bg-blob.a { width: 60vmax; height: 60vmax; left: -18vmax; top: -22vmax; opacity: .18; background: radial-gradient(circle, var(--accent-2), transparent 65%); }
+.bg-blob.b { width: 50vmax; height: 50vmax; right: -16vmax; top: 18vh; opacity: .12; background: radial-gradient(circle, var(--red), transparent 65%); animation-duration: 30s; animation-delay: -9s; }
+.bg-blob.c { width: 46vmax; height: 46vmax; left: 22vw; bottom: -26vmax; opacity: .10; background: radial-gradient(circle, var(--accent), transparent 65%); animation-duration: 36s; animation-delay: -15s; }
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(6vmax, 4vmax, 0) scale(1.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .bg-blob { animation: none; }
+}
