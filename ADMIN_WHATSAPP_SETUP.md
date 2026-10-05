@@ -2,6 +2,16 @@
 
 Le site stocke déjà les demandes de contact dans PostgreSQL (`DATABASE_URL`). Cette fonctionnalité ajoute une page privée `/admin` et envoie une notification WhatsApp au numéro administrateur après l’enregistrement d’une nouvelle demande. En cas d’indisponibilité de Meta, la demande reste enregistrée et le formulaire public reste fonctionnel.
 
+## Chatbot IA avec OpenRouter
+
+Le chatbot produit des réponses contextuelles avec le modèle OpenRouter, en s’appuyant sur le CV, les projets et les services du portfolio. Il répond dans la langue du visiteur avec un ton naturel et des réponses courtes de 3 à 5 phrases ; sans clé, il affiche un avis clair au lieu de simuler une réponse personnalisée.
+
+- `OPENROUTER_API_KEY` : clé secrète créée dans le compte OpenRouter, à définir uniquement côté serveur.
+- `OPENROUTER_MODEL` : facultatif ; par défaut `qwen/qwen3-4b:free`.
+- `PUBLIC_SITE_URL` : facultatif ; URL du portfolio transmise comme référent à OpenRouter.
+
+Cette clé est indépendante des identifiants Meta WhatsApp et des secrets de la page admin. Ne pas la préfixer par `NEXT_PUBLIC_` et ne jamais l’inscrire dans le dépôt.
+
 ## 1. Configurer l’accès à `/admin`
 
 Définir **uniquement dans les variables d’environnement du serveur / hébergeur** :

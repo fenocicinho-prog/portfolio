@@ -6,11 +6,10 @@ import { waLink } from "@/lib/whatsapp";
 import { getSessionId } from "@/lib/session";
 
 type Msg = { role: "user" | "assistant"; content: string };
-const hello: Msg = { role: "assistant", content: `Bonjour ! Je peux répondre à vos questions sur le CV, le parcours, les projets et les services de ${site.name}. Que voulez-vous savoir ?` };
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [msgs, setMsgs] = useState<Msg[]>([hello]);
+  const [msgs, setMsgs] = useState<Msg[]>([]);
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const end = useRef<HTMLDivElement>(null);
@@ -25,12 +24,12 @@ export default function ChatWidget() {
     try {
       const r = await fetch("/api/chat", {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: getSessionId(), messages: next.slice(1) }),
+        body: JSON.stringify({ sessionId: getSessionId(), messages: next.slice(-6) }),
       });
       const d = await r.json();
       setMsgs([...next, { role: "assistant", content: d.reply }]);
     } catch {
-      setMsgs([...next, { role: "assistant", content: "Connexion impossible. Écrivez-moi sur WhatsApp." }]);
+      setMsgs([...next, { role: "assistant", content: "Je ne peux pas joindre l’assistant IA pour le moment. Vous pouvez consulter les sections CV, Projets et Services du portfolio. Pour une demande, contactez Cicinho sur WhatsApp ou via le formulaire." }]);
     } finally { setBusy(false); }
   }
 
@@ -43,6 +42,7 @@ export default function ChatWidget() {
             <button onClick={() => setOpen(false)} aria-label="Fermer le chat" className="rounded-lg px-2 py-1 text-xl leading-none hover:bg-line">×</button>
           </header>
           <div className="flex-1 space-y-3 overflow-y-auto p-4" aria-live="polite">
+            {msgs.length === 0 && <p className="py-4 text-center text-sm text-muted">Posez une question sur le parcours, les projets ou les services de Cicinho.</p>}
             {msgs.map((m, i) => (
               <p key={i} className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2 text-base ${m.role === "user" ? "ml-auto bg-accent text-on-accent" : "bg-line text-fg"}`}>{m.content}</p>
             ))}
