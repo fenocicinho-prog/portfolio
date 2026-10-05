@@ -44,6 +44,7 @@ create table if not exists leads (
   created_at timestamptz not null default now()
 );
 create index if not exists leads_ip_idx on leads (ip_hash, created_at);
+alter table leads add column if not exists handled boolean not null default false;
 `;
 
 // Crée les tables au premier appel (une seule fois par instance du serveur).

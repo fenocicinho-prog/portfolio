@@ -5,13 +5,16 @@ import { site } from "@/content/site";
 import { waLink } from "@/lib/whatsapp";
 import {
   IconServices, IconProjects, IconCV, IconContact,
-  IconGitHub, IconFacebook, IconWhatsApp, IconMail,
+  IconGitHub, IconFacebook, IconWhatsApp, IconTelegram, IconMail,
 } from "@/components/ui/Icons";
 
 const contacts = [
   { href: site.github, label: "GitHub", Icon: IconGitHub, external: true },
   { href: site.facebook, label: "Facebook", Icon: IconFacebook, external: true },
   { href: waLink("Bonjour, j'aimerais discuter d'un projet."), label: "WhatsApp", Icon: IconWhatsApp, external: true },
+  ...(site.telegram
+    ? [{ href: `https://t.me/${site.telegram}`, label: "Telegram", Icon: IconTelegram, external: true }]
+    : []),
   { href: `mailto:${site.email}`, label: "E-mail", Icon: IconMail, external: false },
 ];
 
@@ -145,7 +148,7 @@ export default function Header() {
               {sections.map(({ href, label, Icon }) => renderMobileLink(href, label, Icon))}
             </div>
             <div className="border-t border-line pt-3">
-              <div className="grid grid-cols-4 gap-2">
+              <div className={`grid gap-2 ${contacts.length > 4 ? "grid-cols-5" : "grid-cols-4"}`}>
                 {contacts.map(({ href, label, Icon, external }) => renderMobileLink(href, label, Icon, external))}
               </div>
             </div>

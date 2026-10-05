@@ -1,6 +1,7 @@
 import Reveal from "@/components/ui/Reveal";
 import LeadForm from "@/components/sections/LeadForm";
 import { waLink } from "@/lib/whatsapp";
+import { site } from "@/content/site";
 
 export default function Contact() {
   return (
@@ -17,6 +18,19 @@ export default function Contact() {
           >
             Ouvrir WhatsApp
           </a>
+          {site.telegram && (
+            <>
+              {" "}ou{" "}
+              <a
+                className="font-semibold text-accent underline"
+                href={`https://t.me/${site.telegram}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Telegram
+              </a>
+            </>
+          )}
           .
         </p>
         <LeadForm />

@@ -3,6 +3,7 @@ export const site = {
   role: "Développeur web & IA",
   city: "Nosy Be, Madagascar",
   whatsapp: "261378677499", // indicatif 261, sans + ni 0
+  telegram: "cicinhoHill", // ton @username Telegram, sans le @ (ex. "feno_nosybe"). Vide = lien masqué.
   facebook: "https://www.facebook.com/profile.php?id=61583236075220",
   github: "https://github.com/fenocicinho-prog",
   email: "fenocicinho@gmail.com",
