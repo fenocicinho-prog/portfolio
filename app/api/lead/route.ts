@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { CONSENT_TEXT, CONSENT_VERSION } from "@/content/site";
 import { clientIp, dbEnabled, ensureSchema, hashIp, isSessionId, pool } from "@/lib/db";
+import { notifyLeadOnWhatsApp } from "@/lib/whatsapp-cloud";
 
 const MAX_PER_HOUR = 5; // demandes par visiteur et par heure
 
@@ -44,11 +45,13 @@ export async function POST(req: Request) {
     );
     if ((recent.rows[0]?.n ?? 0) >= MAX_PER_HOUR) return json("Trop de demandes. Réessayez plus tard.", 429);
 
-    await db.query(
+    const inserted = await db.query(
       `insert into leads (session_id, name, whatsapp, email, message, consent, consent_text, consent_version, ip_hash)
-       values ($1, $2, $3, $4, $5, true, $6, $7, $8)`,
+       values ($1, $2, $3, $4, $5, true, $6, $7, $8) returning id::text`,
       [sid, name, wa || null, email || null, message || null, CONSENT_TEXT, CONSENT_VERSION, ipHash],
     );
+    const id = inserted.rows[0]?.id;
+    if (id) await notifyLeadOnWhatsApp({ id: String(id), name, whatsapp: wa || null, email: email || null, message: message || null });
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("lead:", e);
