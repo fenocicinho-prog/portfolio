@@ -22,7 +22,12 @@ export async function sendTelegram(html: string): Promise<boolean> {
       }),
       signal: AbortSignal.timeout(5000),
     });
-    if (!r.ok) console.error("telegram: refusé par l'API, code", r.status);
+    if (!r.ok) {
+      const data = await r.json().catch(() => null) as { error_code?: unknown; description?: unknown } | null;
+      const code = typeof data?.error_code === "number" ? data.error_code : r.status;
+      const description = typeof data?.description === "string" ? data.description : "réponse sans détail";
+      console.error(`telegram: refusé par l'API, code ${code}: ${description}`);
+    }
     return r.ok;
   } catch {
     console.error("telegram: envoi impossible"); // volontairement sans détail (l'URL contient le token)

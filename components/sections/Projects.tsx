@@ -1,6 +1,7 @@
 import { projects, type Project } from "@/content/projects";
 import MediaFrame from "@/components/ui/MediaFrame";
 import Reveal from "@/components/ui/Reveal";
+import ProjectDemo from "@/components/ui/ProjectDemo";
 
 const label: Record<Project["kind"], string> = {
   realise: "Réalisé",
@@ -16,7 +17,9 @@ export default function Projects() {
         {projects.map((p) => (
           <Reveal key={p.slug}>
             <article>
-              <MediaFrame cover={p.cover} alt={p.title} />
+              <ProjectDemo title={p.title} url={p.demoUrl || undefined}>
+                <MediaFrame cover={p.cover} alt={p.title} />
+              </ProjectDemo>
               <div className="mt-4 flex items-center gap-2">
                 <h3 className="font-display text-xl font-semibold">{p.title}</h3>
                 <span className="rounded-full border border-line px-2 py-0.5 text-sm text-muted">{label[p.kind]}</span>
