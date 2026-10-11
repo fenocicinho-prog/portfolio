@@ -33,7 +33,7 @@ export const projects: Project[] = [
     summary:
       "Site vitrine pour une entreprise de rénovation en Californie : services, galeries photo par catégorie, formulaire de devis et boutons d'appel direct.",
     stack: ["Next.js", "React", "TypeScript", "Tailwind"],
-    // cover: "/projects/muller-home/muller-home.png", // ← ajoute la capture puis décommente
+    cover: "/projects/muller-home/muller-home.png", // ← ajoute la capture puis décommente
     demoUrl: "https://muller-home-remodeling.vercel.app/", // TODO : adresse .vercel.app du site Muller
   },
   {
@@ -53,7 +53,7 @@ export const projects: Project[] = [
     summary:
       "Bot IA qui répond aux clients sur Messenger et publie automatiquement des annonces illustrées sur une Page Facebook, 24 h/24 sans que mon ordinateur soit allumé.",
     stack: ["Next.js", "Vercel", "Meta API", "OpenRouter"],
-    // cover: "/projects/social-bot/social-bot.png", // ← ajoute la capture puis décommente
+    cover: "/projects/social-bot/social-bot.png", // ← ajoute la capture puis décommente
     demoUrl: "https://social-bot-beta.vercel.app/",
   },
   {
