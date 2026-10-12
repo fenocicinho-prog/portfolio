@@ -28,9 +28,10 @@ export default function ChatWidget() {
         body: JSON.stringify({ sessionId: getSessionId(), messages: next.slice(1) }),
       });
       const d = await r.json();
+      if (!r.ok || typeof d.reply !== "string") throw new Error("Chat indisponible");
       setMsgs([...next, { role: "assistant", content: d.reply }]);
     } catch {
-      setMsgs([...next, { role: "assistant", content: "Connexion impossible. Écrivez-moi sur WhatsApp." }]);
+      setMsgs([...next, { role: "assistant", content: "Je n’arrive pas à joindre mon assistant pour le moment. Réessayez dans un instant ou contactez-moi via WhatsApp." }]);
     } finally { setBusy(false); }
   }
 
