@@ -23,15 +23,27 @@ export default function ChatWidget() {
     const next: Msg[] = [...msgs, { role: "user", content: t }];
     setMsgs(next); setText(""); setBusy(true);
     try {
-      const r = await fetch("/api/chat", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: getSessionId(), messages: next.slice(1) }),
-      });
-      const d = await r.json();
-      if (!r.ok || typeof d.reply !== "string") throw new Error("Chat indisponible");
+      let r: Response;
+      try {
+        r = await fetch("/api/chat", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: getSessionId(), messages: next.slice(1) }),
+        });
+      } catch {
+        throw new Error("NETWORK_ERROR");
+      }
+      const d = await r.json().catch(() => ({}));
+      if (!r.ok) {
+        if (typeof d.reply === "string") throw new Error(d.reply);
+        throw new Error("Le service est temporairement indisponible.");
+      }
+      if (typeof d.reply !== "string") throw new Error("Le service est temporairement indisponible.");
       setMsgs([...next, { role: "assistant", content: d.reply }]);
-    } catch {
-      setMsgs([...next, { role: "assistant", content: "Je n’arrive pas à joindre mon assistant pour le moment. Réessayez dans un instant ou contactez-moi via WhatsApp." }]);
+    } catch (error) {
+      const message = error instanceof Error && error.message === "NETWORK_ERROR"
+        ? "Vérifiez votre connexion internet."
+        : error instanceof Error ? error.message : "Le service est temporairement indisponible.";
+      setMsgs([...next, { role: "assistant", content: message }]);
     } finally { setBusy(false); }
   }
 

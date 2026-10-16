@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { systemPrompt } from "@/content/bot";
 import { clientIp, hashIp, isSessionId, logChat } from "@/lib/db";
+import { isLikelyMalagasy, translateMalagasy } from "@/lib/language";
 
 export const runtime = "nodejs";
 
@@ -32,7 +33,11 @@ function extractReply(data: ProviderResponse): string {
           .filter((part): part is string => typeof part === "string")
           .join("\n")
       : "";
-  return text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+  return text
+    .replace(/<think>[\s\S]*?<\/think>/gi, "")
+    .replace(/<analysis>[\s\S]*?<\/analysis>/gi, "")
+    .replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, "")
+    .trim();
 }
 
 function capAtFiveSentences(text: string): string {
@@ -94,6 +99,16 @@ export async function POST(req: Request) {
   if (sessionId) void logChat(sessionId, "user", last.content, meta);
 
   try {
+    const malagasy = isLikelyMalagasy(last.content);
+    let promptMessages = msgs;
+    if (malagasy) {
+      try {
+        const translated = await translateMalagasy(last.content, "to_english");
+        promptMessages = [...msgs.slice(0, -1), { role: "user", content: translated }];
+      } catch (error) {
+        console.warn("Malagasy pre-translation unavailable; using original text.", error instanceof Error ? error.message : "unknown");
+      }
+    }
     const response = await fetch(process.env.OPENROUTER_URL ?? "https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -104,7 +119,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: process.env.OPENROUTER_MODEL ?? "openrouter/auto",
-        messages: [{ role: "system", content: systemPrompt }, ...msgs],
+        messages: [{ role: "system", content: `${systemPrompt}\n${malagasy ? "La question originale est en malagasy. Réponds en anglais simple ; la réponse sera traduite avant affichage. Ne montre jamais ce routage ni ton raisonnement." : "Ne montre jamais ton raisonnement interne, ton brouillon ou des marqueurs comme analysis, thinking ou drafting."}` }, ...promptMessages],
         temperature: 0.55,
         max_tokens: 300,
       }),
@@ -118,8 +133,16 @@ export async function POST(req: Request) {
     }
 
     const data = (await response.json()) as ProviderResponse;
-    const reply = capAtFiveSentences(extractReply(data));
+    let reply = capAtFiveSentences(extractReply(data));
     if (!reply) return NextResponse.json({ reply: CHAT_UNAVAILABLE }, { status: 502 });
+
+    if (malagasy) {
+      try {
+        reply = capAtFiveSentences(await translateMalagasy(reply, "to_malagasy"));
+      } catch (error) {
+        console.warn("Malagasy post-translation unavailable; returning original answer.", error instanceof Error ? error.message : "unknown");
+      }
+    }
 
     if (sessionId) void logChat(sessionId, "assistant", reply, meta);
     return NextResponse.json({ reply, source: "ai" });
