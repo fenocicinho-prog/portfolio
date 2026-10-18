@@ -4,6 +4,7 @@ import { clientIp, hashIp, isSessionId, logChat } from "@/lib/db";
 import { isLikelyMalagasy, translateMalagasy } from "@/lib/language";
 
 export const runtime = "nodejs";
+export const maxDuration = 180;
 
 // Limite par visiteur et par instance : protection de base contre les abus.
 const hits = new Map<string, { n: number; t: number }>();
@@ -110,7 +111,7 @@ export async function POST(req: Request) {
         model: process.env.OPENROUTER_MODEL ?? "openrouter/auto",
         messages: [{ role: "system", content: `${systemPrompt}\n${malagasy ? "La question originale est en malagasy. Réponds en anglais simple ; la réponse sera traduite avant affichage. Ne montre jamais ce routage ni ton raisonnement." : "Ne montre jamais ton raisonnement interne, ton brouillon ou des marqueurs comme analysis, thinking ou drafting."}` }, ...promptMessages],
         temperature: 0.55,
-        max_tokens: 1600,
+        max_tokens: 3200,
       }),
       cache: "no-store",
       signal: AbortSignal.timeout(45_000),
