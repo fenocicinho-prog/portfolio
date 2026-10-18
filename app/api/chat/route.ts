@@ -114,7 +114,7 @@ export async function POST(req: Request) {
         max_tokens: 3200,
       }),
       cache: "no-store",
-      signal: AbortSignal.timeout(45_000),
+      signal: AbortSignal.timeout(90_000),
     });
 
     if (!response.ok) {
