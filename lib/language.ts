@@ -58,10 +58,10 @@ export async function translateMalagasy(text: string, direction: "to_english" | 
       model: process.env.OPENROUTER_TRANSLATOR_MODEL ?? process.env.OPENROUTER_MODEL ?? "openrouter/auto",
       messages: [{ role: "system", content: instruction }, { role: "user", content: text }],
       temperature: 0,
-      max_tokens: Math.min(420, Math.max(120, Math.ceil(text.length * 1.15))),
+      max_tokens: Math.min(1800, Math.max(160, Math.ceil(text.length * 1.35))),
     }),
     cache: "no-store",
-    signal: AbortSignal.timeout(7_000),
+    signal: AbortSignal.timeout(45_000),
   });
   if (!response.ok) throw new Error(`Translator HTTP ${response.status}`);
   const translated = extractText((await response.json()) as ChatCompletionResponse);

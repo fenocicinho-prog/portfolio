@@ -40,17 +40,6 @@ function extractReply(data: ProviderResponse): string {
     .trim();
 }
 
-function capAtFiveSentences(text: string): string {
-  const compact = text.replace(/\s+/g, " ").trim();
-  const Segmenter = Intl.Segmenter;
-  if (!Segmenter) return compact;
-  return Array.from(new Segmenter("fr", { granularity: "sentence" }).segment(compact))
-    .slice(0, 5)
-    .map((part) => part.segment.trim())
-    .filter(Boolean)
-    .join(" ");
-}
-
 export async function POST(req: Request) {
   const ip = clientIp(req);
   const now = Date.now();
@@ -121,10 +110,10 @@ export async function POST(req: Request) {
         model: process.env.OPENROUTER_MODEL ?? "openrouter/auto",
         messages: [{ role: "system", content: `${systemPrompt}\n${malagasy ? "La question originale est en malagasy. Réponds en anglais simple ; la réponse sera traduite avant affichage. Ne montre jamais ce routage ni ton raisonnement." : "Ne montre jamais ton raisonnement interne, ton brouillon ou des marqueurs comme analysis, thinking ou drafting."}` }, ...promptMessages],
         temperature: 0.55,
-        max_tokens: 300,
+        max_tokens: 1600,
       }),
       cache: "no-store",
-      signal: AbortSignal.timeout(20_000),
+      signal: AbortSignal.timeout(45_000),
     });
 
     if (!response.ok) {
@@ -133,12 +122,12 @@ export async function POST(req: Request) {
     }
 
     const data = (await response.json()) as ProviderResponse;
-    let reply = capAtFiveSentences(extractReply(data));
+    let reply = extractReply(data);
     if (!reply) return NextResponse.json({ reply: CHAT_UNAVAILABLE }, { status: 502 });
 
     if (malagasy) {
       try {
-        reply = capAtFiveSentences(await translateMalagasy(reply, "to_malagasy"));
+        reply = await translateMalagasy(reply, "to_malagasy");
       } catch (error) {
         console.warn("Malagasy post-translation unavailable; returning original answer.", error instanceof Error ? error.message : "unknown");
       }
