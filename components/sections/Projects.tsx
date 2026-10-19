@@ -1,4 +1,5 @@
 import { projects, type Project } from "@/content/projects";
+import Link from "next/link";
 import MediaFrame from "@/components/ui/MediaFrame";
 import Reveal from "@/components/ui/Reveal";
 import ProjectDemo from "@/components/ui/ProjectDemo";
@@ -30,6 +31,12 @@ export default function Projects() {
                   <li key={s} className="rounded-full bg-card px-2.5 py-1 ring-1 ring-line">{s}</li>
                 ))}
               </ul>
+              <Link
+                href={`/projets/${p.slug}`}
+                className="mt-4 inline-flex min-h-10 items-center font-semibold text-accent underline underline-offset-4 hover:opacity-80"
+              >
+                Découvrir le projet
+              </Link>
             </article>
           </Reveal>
         ))}
